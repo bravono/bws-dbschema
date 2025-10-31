@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX orders_user_category_idx ON orders(user_id, category_id);
