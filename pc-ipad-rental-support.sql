@@ -5,14 +5,15 @@ CREATE TABLE IF NOT EXISTS rentals (
           device_name VARCHAR(255) NOT NULL,
           description TEXT,
           specs TEXT,
-          hourly_rate DECIMAL(10, 2) NOT NULL,
+          hourly_rate INT NOT NULL,
           location_city VARCHAR(100) NOT NULL,
           location_address VARCHAR(255),
           location_lat DECIMAL(10, 8),
           location_lng DECIMAL(11, 8),
           has_internet BOOLEAN DEFAULT FALSE,
           has_backup_power BOOLEAN DEFAULT FALSE,
-          status VARCHAR(20) DEFAULT 'active',
+          is_active BOOLEAN DEFAULT TRUE,
+          approval_status VARCHAR(50) NOT NULL DEFAULT 'pending',
           created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
           updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         );
@@ -23,10 +24,16 @@ CREATE TABLE IF NOT EXISTS rental_bookings (
           client_id INT NOT NULL,
           start_time TIMESTAMP WITH TIME ZONE NOT NULL,
           end_time TIMESTAMP WITH TIME ZONE NOT NULL,
-          total_amount DECIMAL(10, 2) NOT NULL,
-          order_status_id INT,
+          proposed_start_time TIMESTAMP WITH TIME ZONE,
+          proposed_end_time TIMESTAMP WITH TIME ZONE,
+          total_amount_kobo INT NOT NULL,
+          payment_status_id SMALLINT DEFAULT 3 NOT NULL,
           payment_reference VARCHAR(100),
           created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+          rejection_reason TEXT,
+          cancellation_reason TEXT,
+          escrow_released BOOLEAN DEFAULT FALSE,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
         );
 
 CREATE TABLE IF NOT EXISTS rental_reviews (
