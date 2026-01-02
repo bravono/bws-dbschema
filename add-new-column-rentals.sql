@@ -1,0 +1,6 @@
+ALTER TABLE rentals 
+RENAME COLUMN status TO approval_status;
+
+ALTER TABLE rentals
+ADD COLUMN is_active BOOLEAN DEFAULT TRUE,
+ADD COLUMN deleted_at TIMESTAMP WITH TIME ZONE;
